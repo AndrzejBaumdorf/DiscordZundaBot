@@ -1,0 +1,22 @@
+version: "3"
+
+services:
+  python:
+    build: .
+    container_name: python3
+    working_dir: "/root/opt"
+    tty: true
+    restart: always
+    volumes:
+      - .:/root/opt
+    depends_on:
+      - voicevox
+    environment:
+      - VOICEVOX_URL=http://voicevox:50021
+      - FFMPEG_PATH=/usr/bin/ffmpeg
+
+  voicevox:
+    image: voicevox/voicevox_engine:cpu-ubuntu20.04-latest
+    container_name: voicevox
+    ports:
+      - "50021:50021"
